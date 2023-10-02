@@ -1,0 +1,196 @@
+interview questions
+
+interface vs abstract class
+
+heap space memory and heapmemory error -> storing classes, objects and the stack memmory has its references
+-Xms and -Xmx to predefine min and max size of heap
+out of memory error
+
+stack memory -> short lived. storing methods data, primitive and refs to non primitive objs.
+             -> only used by one thread. very small compared to heap.
+-Xss to define size 
+stackoverflowerror
+
+throwable | Exception & Error (OutOfMemoryError)
+checked exceptions IOException for example, exceptions checked in compile time not runtime.
+unchecked RuntimeExc NullPE, runtime not compile time.
+
+composition vs inheritance -> cat "is a" animal (inherit) - car "has a" engine (composition)
+
+design patterns types: GOF & GRASP
+- behavioural -> objects communication 
+            as: 
+			    observer send messages to the suscriptors when some event happen,
+                strategy use different implem. depending on an attribute,
+				template is when you use like a generic method defined in the super class an extensions execute it.
+				state: execute different implem (extensions) depending on (abstract class) state.
+				        create implem for each possible state
+				command pattern: map a request into an object with all the data to
+				                 execute action and pass it.
+				memento: let you set an object to previous state using snapshots.
+
+- creational -> hide the new operator providing methods to create objects
+            as:
+			    builder static class to construct objs,
+                singleton one instance always,
+                factory avoid constructors, the constructor is made by a method of sub classes
+				abstract factory,
+- structural -> how to assemble classes flexible and efficiently
+              as: 
+                facade create a smaller "face" for a list of methods.
+                decorator when you need specialized behaviour you extend class and implement special method in child class.
+				proxy class that acts like other, very used for cache and avoid downloading or querying DBs repeatedly.
+				adapter is like a dto between two services, works very good when a service has a complex api,
+				       the adapter maps requests simplifying requests.
+ 
+Gang of Four (GOF)
+
+architectural patterns: like predesigned solution that works to solve some common problems.
+for example mvc, client-server
+
+microservices patterns:
+- api gateway - front end for multiple microservices, intercept requests
+                  and route to appropriate service.
+- circuit breaker - used to detect failures and prevent cascade failures.
+                     states: closed or open and half-open.
+- saga for transaction mg, modes: chroeography async and orchestration sync.
+                                   choreography: each service send messages to next to continue flow.
+								   orchestration: having an object to define the flow and telling 
+								                  to each component what to do.
+- service mesh: dedicated infra module for a service.
+- cqrs that uses a db-view and a db to
+           insert, del or update data, and sync mechanism between db-view and db
+- event sourcing -> when you need to update db and send messages to SQS or any broker
+what is cascade failure and how to avoid it
+
+how to look for memory leaks - use profilers (visualvm) and heap dump (or thread dump) on outofmem error, check db connections closing,
+                                File reading, try different GC setup using java commands
+
+authentication and authorization - 
+jwt -> json web tokens
+
+Rest vs GraphQl -> graphql only retrieves requested values
+http status -> 1xx info 2xx success 3xx redirects 4xx client error 5xx server error
+
+dependency injection DI -> inject the dependency needed by letting the IOC framework do it
+inversion of control IOC -> gives control to a framework
+dependency inversion -> should depend only on abstractions, not concrete classes
+
+topic 1 to n vs queue is 1-1
+
+kafka is an event streaming platform with pub sub , store streams and process streams as they occur or retrospectivly
+      topics division for topics
+	  partitions 
+	  replication replication or redundancy of data in partitions
+	  offset index of reading of a subscriber
+	  
+mqtt oasis pubsub estandar for internet Of Things communication
+
+lazy initialization is a performance optimization with two objectives:
+delay an exepnsive operation and store a cache for the result to avoid more than one execution when not needed
+
+solid s single responsability
+      o open for extension but closed for modifications
+	  l liskov replacement objects of superclass should be replaced with subclasses without breaking func
+	  i interface seg create interfaces with less methods 
+	  d dep inversion - always depend on abstractions upper and higher modules
+	   
+Functional interface - interface with only one abstract method, can be replaced with a lambda (since java 8)
+                      can have default method(s)
+
+spring -> postconstruct to create default data or read configuration data
+          predestroy is to close connections, for instance.
+		  JavaEE has been deprecated java 9 and removed in java 11 so we need to add javax.annotation dependency
+
+Reverse proxy is a server that sits between the client and the webserver.
+              intercepts requests from clients and forwards them to the appropriate server.
+			  can also cache frequently requested content, which can help improve performance and reduce server load.
+              ideal for websites or applications that need to handle a large number of concurrent connections.
+
+
+Load Balancer server that distributes incoming network traffic across multiple servers.
+          The goal is to ensure that no single server is overwhelmed with traffic, which can lead to slow response
+		  times or even downtime.
+		  Ideal for high-traffic websites or applications that need to handle a large volume of requests.
+		  
+how to avoid DDOS attacks? using rate limiters for instance with bucket4j
+
+
+hexagonal
+onion
+clean arch 
+
+
+hibernate orm - transactions depends on isolation level
+transaction - acid (atomicity, consistency, isolation, and durability)
+
+
+reactive manifesto - cambio de paradigma para procesar grandes cantidades de datos
+                     message driven - elastic - responsive - resilient
+					 
+back pressure - diferencia de velocidades, un servicio emite 10 cada segundo y
+                el otro lee 5 cada segundo.
+
+nano services - microservices but lighter, normally single responsability -> single action exposed
+
+serverless - pay per use - lambdas, fargate, db on demand, networking costs... the risk is hidden costs
+
+
+programacion imperativa: secuencia de operaciones a realizar.
+			 declarativa: se especifica el resultado deseado, no cómo lograrlo.
+			 asincrona: se ejecuta sin bloquear el hilo actual.
+			 reactiva: asincrona pero se ejecuta cuando sucede un evento.
+			 funcional: basada en funciones matematicas
+
+Funciones de orden superior -> acepta otra función como argumento.
+
+funciones puras -> no modifican valores o no causan efectos secundarios.
+
+callback -> metodo que se pasa a una funcion de orden superior para ser ejecutada "despues"
+            normalmente cuando sucede un evento o llega una respuesta
+
+fan out pub sub
+
+SpringBootApplication annotation -> incluye tres annotations: config, autoconfig y componentScan
+
+RestController -> includes Controller and ResponseBody
+
+functional interface -> any interface with only one method,
+                        the java compiler recognize and marks it as a functional interface.
+
+Java stream api
+           Predicate & BiPredicate ->  returns true or false
+           Function & Bifunction ->    receive and return objects, bifunction is a function that receive 2 params
+		   Consumer or Biconsumer ->   returns void, just consume
+		   Supplier (proveedor) ->     returns object but does not take any arg
+		   UnaryOperator & BinaryOperator -> to define operations,
+		                                     unary is to operate over the same object = x+x
+											 binary is to operate over 2 objects = x+y
+
+
+teorema cap o brewster -> Consistencia
+                          Availability (Disponibilidad)
+						  Tolerancia de partición
+						  
+escalamiento vertical    -> aumentar capacidad de hardware, agregar procesadores o memoria
+                            pero siendo el mismo servicio, OS o microservicio.
+             horizontal  -> aumentar numero de nodos o servidores al cluster o crear clusters
+			 
+volatile                  ->
+AtomicInt AtomicReference -> 
+synchronized( object )    ->
+
+
+hazelcast para cache, incluir dependencia, agregar bean o agregar config en app.yml o xml
+redis para cache y para comunicacion entre microservices.
+
+
+vertica db big data
+
+functional programming
+side effects: 
+monads - 3 laws: left identity, right identity, and associativity
+
+spring webflux: scale based on the load
+                  use resources efficiently.
+				  low latency = response time should be faster
