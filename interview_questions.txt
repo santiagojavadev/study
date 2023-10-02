@@ -116,9 +116,9 @@ Load Balancer server that distributes incoming network traffic across multiple s
 how to avoid DDOS attacks? using rate limiters for instance with bucket4j
 
 
-hexagonal
+hexagonal infra package that interacts with databases, and publish endpoints
 onion
-clean arch 
+clean architecture
 
 
 hibernate orm - transactions depends on isolation level
